@@ -1,0 +1,37 @@
+# Cấu hình bảo mật Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Bảo vệ file cấu hình & core nội bộ
+<FilesMatch "^(config|api_core|gold_core|auth|rate_limit|queue_api|ctv_core)\.php$">
+    Require all denied
+</FilesMatch>
+
+# Chặn các file backup/code/database
+<FilesMatch "\.(zip|rar|7z|tar|gz|sql|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Chặn file accounts
+<FilesMatch "^(accounts|config|backup).*\.(txt|json|ini)$">
+    Require all denied
+</FilesMatch>
+
+# Tắt hiển thị lỗi PHP trên production
+php_flag display_errors off
+php_value error_reporting E_ALL
+php_flag log_errors on
+
+# ĐỊNH DẠNG FILE CHO LOCKET CONFIG
+<IfModule mod_mime.c>
+    AddType application/x-apple-aspen-config .mobileconfig
+</IfModule>
+
+# CHẶN TRUY CẬP TRỰC TIẾP VÀO THƯ MỤC STORAGE
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^storage/.*$ - [F,L]
+</IfModule>

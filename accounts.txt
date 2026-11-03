@@ -1,0 +1,2 @@
+# Để account locket vào đây theo dạng gmail@mail.com|1234
+adminLocket@gmail.com|admin123
